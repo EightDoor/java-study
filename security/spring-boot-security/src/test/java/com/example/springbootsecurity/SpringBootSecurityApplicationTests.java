@@ -3,6 +3,7 @@ package com.example.springbootsecurity;
 import com.example.springbootsecurity.domain.User;
 import com.example.springbootsecurity.mapper.UserMapper;
 import com.example.springbootsecurity.utils.JwtUtil;
+import com.example.springbootsecurity.utils.RedisUtil;
 import io.jsonwebtoken.Claims;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,11 +47,19 @@ class SpringBootSecurityApplicationTests {
 	@Test
 	public void getToken() {
 		// 生成token
-//		String jwt = JwtUtil.createJWT("12345");
-//		System.out.println(jwt);
+		String jwt = JwtUtil.createJWT("12345");
+		System.out.println(jwt);
 		// 解析token
-		Claims claims = JwtUtil.parseJWT("eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIzMWJmZjE4OGU4ZmE0YzgxOWUxNjc1NWU0ZTA4YWY5YyIsInN1YiI6IjEyMzQ1IiwiaXNzIjoiemsiLCJpYXQiOjE2NjQ4NTQ0NjgsImV4cCI6MTY2NDg1ODA2OH0.lg93mC_eSp9kbLxsOhCa-myaSBhIwYZR2Tn12VufHms");
-		String subject = claims.getSubject();
-		System.out.println(subject);
+//		Claims claims = JwtUtil.parseJWT("eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIzMWJmZjE4OGU4ZmE0YzgxOWUxNjc1NWU0ZTA4YWY5YyIsInN1YiI6IjEyMzQ1IiwiaXNzIjoiemsiLCJpYXQiOjE2NjQ4NTQ0NjgsImV4cCI6MTY2NDg1ODA2OH0.lg93mC_eSp9kbLxsOhCa-myaSBhIwYZR2Tn12VufHms");
+//		String subject = claims.getSubject();
+//		System.out.println(subject);
+	}
+
+	@Autowired
+	RedisUtil redisUtil;
+	@Test
+	public void redisTest() {
+		boolean set = redisUtil.set("测试", "123333");
+		System.out.println(set);
 	}
 }

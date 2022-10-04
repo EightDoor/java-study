@@ -6,10 +6,20 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   redis:
+    host: 192.168.31.229
     port: 6379
     password: 123456
-    host: 192.168.31.229
-
+    timeout: 10000
+    lettuce:
+      pool:
+        max-active: 8
+        # 连接池最大阻塞时间（使用负值表示没有限制）
+        max-wait: -1ms
+        # 连接池中的最大空闲连接
+        max-idle: 8
+        # 连接池中的最小空闲连接
+        min-idle: 0
 jwtConfig:
-  # 默认7天过期
-  expirationTime: 1000*60*60*24*7
+  # 默认7天过期 秒为单位
+  expirationTime: 604800
+debug: false

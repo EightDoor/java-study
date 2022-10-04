@@ -21,7 +21,7 @@ import java.util.Objects;
  */
 @Service
 public class LoginServiceImpl implements LoginService {
-    @Value("jwtConfig.expirationTime")
+    @Value("${jwtConfig.expirationTime}")
     Long expirationTime;
     @Autowired
     RedisUtil redisUtil;

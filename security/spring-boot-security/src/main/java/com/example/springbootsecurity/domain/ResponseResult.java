@@ -1,12 +1,10 @@
 package com.example.springbootsecurity.domain;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 /**
  * @author zhoukai
  */
-@JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
 public class ResponseResult<T> {
     /**
