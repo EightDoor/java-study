@@ -7,7 +7,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-import javax.xml.crypto.Data;
 import java.util.Base64;
 import java.util.Date;
 import java.util.UUID;
@@ -75,7 +74,7 @@ public class JwtUtil {
         }
 
         long expMillis = nowMillis + ttlMillis;
-        Data expDate = (Data) new Date(expMillis);
+        Date expDate =  new Date(expMillis);
         return Jwts.builder()
                 /**
                  * 唯一id
@@ -97,14 +96,8 @@ public class JwtUtil {
                  * 使用HS256对称加密算法签名，第二个参数为秘钥
                  */
                 .signWith(signatureAlgorithm, secretKey)
-                .setExpiration((Date) expDate);
+                .setExpiration(expDate);
 
-    }
-
-    public static void main(String[] args){
-        String token = "";
-        Claims claims = parseJWT(token);
-        System.out.println(claims);
     }
 
     /**
@@ -126,7 +119,7 @@ public class JwtUtil {
         SecretKey secretKey = generalKey();
         return Jwts.parser()
                 .setSigningKey(secretKey)
-                .parseClaimsJwt(jwt)
+                .parseClaimsJws(jwt)
                 .getBody();
     }
 }

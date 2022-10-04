@@ -13,7 +13,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class SpringBootSecurityApplication {
 
 	public static void main(String[] args) {
-		ConfigurableApplicationContext run = SpringApplication.run(SpringBootSecurityApplication.class, args);
-		System.out.println(111);
+		SpringApplication.run(SpringBootSecurityApplication.class, args);
 	}
 }
