@@ -11,8 +11,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -42,8 +44,20 @@ public class LoginServiceImpl implements LoginService {
         String jwt = JwtUtil.createJWT(userId, expirationTime);
         HashMap<String, String> map = new HashMap<>();
         map.put("token", jwt);
+        map.put("expirationTime", String.valueOf(System.currentTimeMillis() + expirationTime));
         // 把用户信息存入redis
         redisUtil.set("login:" + userId, loginUser.getUser(), expirationTime);
         return new ResponseResult(200, "登录成功", map);
+    }
+
+    @Override
+    public ResponseResult logout() {
+        // 获取SecurityContextHolder中的用户id
+        UsernamePasswordAuthenticationToken authentication = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+        LoginUser loginUser = (LoginUser) authentication.getPrincipal();
+        Long userId = loginUser.getUser().getId();
+        // 删除redis中的值
+        redisUtil.del("login:" + userId, String.valueOf(userId));
+        return new ResponseResult(200, "注销成功");
     }
 }

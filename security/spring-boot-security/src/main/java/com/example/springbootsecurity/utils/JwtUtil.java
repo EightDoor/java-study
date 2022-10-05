@@ -3,16 +3,10 @@ package com.example.springbootsecurity.utils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
-import java.io.Serializable;
-import java.security.Key;
-import java.util.Base64;
 import java.util.Date;
 import java.util.UUID;
 
@@ -28,7 +22,7 @@ public class JwtUtil {
     /**
      * 设置秘钥明文
      */
-    public static final String JWT_KEY = "zhoukai";
+    public static final String JWT_KEY = "aGVsbG9oZWxsb2hlbGxvaGVsbG9oZWxsb2hlbGxvaGVsbG9oZWxsb2hlbGxvaGVsbG9oZWxsb2hlbGxvaGVsbG9oZWxsb2hlbGxvaGVsbG9oZWxsb2hlbGxvaGVsbG9oZWxsb2hlbGxvaGVsbG9oZWxsb2hlbGxvaGVsbG9oZWxsb2hlbGxvaGVsbG9oZWxsb2hlbGxvaGVsbG9oZWxsb2hlbGxvaGVsbG9oZWxsb2hlbGxvaGVsbG8=";
 
     public static String getUUID(){
         String token = UUID.randomUUID().toString().replace("-", "");
@@ -70,7 +64,7 @@ public class JwtUtil {
     }
 
     private static JwtBuilder getJWTBuilder(String subject, Long ttlMillis, String uuid) {
-        Key key = generalKey();
+        SecretKey key = generalKey();
         long nowMillis = System.currentTimeMillis();
         Date now = new Date(nowMillis);
         if(ttlMillis == null) {
@@ -108,8 +102,8 @@ public class JwtUtil {
      * 生成加密后的秘钥 secretKey
      * @return
      */
-    public static Key generalKey() {
-        Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    public static SecretKey generalKey() {
+        SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(JWT_KEY));
         return key;
     }
 
@@ -119,11 +113,11 @@ public class JwtUtil {
      * @return
      */
     public static Claims parseJWT(String jwt) {
-        Key key = generalKey();
+        SecretKey key = generalKey();
         return Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()
-                .parseClaimsJwt(jwt)
+                .parseClaimsJws(jwt)
                 .getBody();
     }
 }

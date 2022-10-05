@@ -2,6 +2,7 @@ package com.example.springbootsecurity.utils;
 
 
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -92,6 +93,17 @@ public final class RedisUtil {
      */
     public Object get(String key) {
         return key == null ? null : redisTemplate.opsForValue().get(key);
+    }
+
+    /**
+     * 普通缓存获取对象
+     * @param key 键
+     * @return 对象
+     * @param <T>
+     */
+    public <T> T getCacheObject(final String key) {
+        ValueOperations<String, T> operation = (ValueOperations<String, T>) redisTemplate.opsForValue();
+        return operation.get(key);
     }
 
     /**

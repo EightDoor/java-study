@@ -20,6 +20,6 @@ spring:
         # 连接池中的最小空闲连接
         min-idle: 0
 jwtConfig:
-  # 默认7天过期 秒为单位
-  expirationTime: 604800
+  # 默认7天过期 单位为毫秒
+  expirationTime: 604800000
 debug: false
