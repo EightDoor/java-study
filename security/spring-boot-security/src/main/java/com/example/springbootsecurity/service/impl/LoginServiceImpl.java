@@ -46,7 +46,7 @@ public class LoginServiceImpl implements LoginService {
         map.put("token", jwt);
         map.put("expirationTime", String.valueOf(System.currentTimeMillis() + expirationTime));
         // 把用户信息存入redis
-        redisUtil.set("login:" + userId, loginUser.getUser(), expirationTime);
+        redisUtil.set("login:" + userId, loginUser, expirationTime);
         return new ResponseResult(200, "登录成功", map);
     }
 
