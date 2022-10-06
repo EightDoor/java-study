@@ -3,6 +3,7 @@ package com.example.springbootsecurity.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.example.springbootsecurity.domain.LoginUser;
 import com.example.springbootsecurity.domain.User;
+import com.example.springbootsecurity.mapper.MenuMapper;
 import com.example.springbootsecurity.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -21,6 +23,8 @@ import java.util.Objects;
 public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     UserMapper userMapper;
+    @Autowired
+    MenuMapper menuMapper;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -32,8 +36,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if(Objects.isNull(user)) {
             throw new RuntimeException("用户名获取密码获取错误");
         }
-        //TODO 查询对应的权限信息
-        ArrayList<String> list = new ArrayList<>(Arrays.asList("test", "admin"));
+        // 查询对应的权限信息
+        List<String> list = menuMapper.selectPermByUserId(user.getId());
         // 把数据封装UserDetails对象
         return new LoginUser(user, list);
     }

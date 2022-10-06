@@ -1,6 +1,7 @@
 package com.example.springbootsecurity;
 
 import com.example.springbootsecurity.domain.User;
+import com.example.springbootsecurity.mapper.MenuMapper;
 import com.example.springbootsecurity.mapper.UserMapper;
 import com.example.springbootsecurity.utils.JwtUtil;
 import com.example.springbootsecurity.utils.RedisUtil;
@@ -61,5 +62,13 @@ class SpringBootSecurityApplicationTests {
 	public void redisTest() {
 		boolean set = redisUtil.set("测试", "123333");
 		System.out.println(set);
+	}
+
+	@Autowired
+	MenuMapper menuMapper;
+	@Test
+	public void getMenuPerm() {
+		List<String> list = menuMapper.selectPermByUserId(1L);
+		System.out.println(list);
 	}
 }
