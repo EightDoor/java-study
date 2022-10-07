@@ -1,7 +1,6 @@
 package com.example.springbootsecurity.filter;
-import com.alibaba.fastjson.JSONObject;
+
 import com.example.springbootsecurity.domain.LoginUser;
-import com.example.springbootsecurity.domain.User;
 import com.example.springbootsecurity.utils.JwtUtil;
 import com.example.springbootsecurity.utils.RedisUtil;
 import io.jsonwebtoken.Claims;
