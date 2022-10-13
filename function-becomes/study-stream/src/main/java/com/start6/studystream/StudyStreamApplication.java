@@ -4,9 +4,7 @@ import com.start6.studystream.entity.Author;
 import com.start6.studystream.entity.Book;
 
 import java.util.*;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
+import java.util.function.*;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -34,7 +32,91 @@ public class StudyStreamApplication {
 //        test10();
 //        test11();
 //        test12();
-        test13();
+//        test13();
+//        test14();
+//        test15();
+//        test16();
+//        test17();
+//        test18();
+//        test19();
+//        test20();
+        test21();
+    }
+
+    private static void test21() {
+        List<Author> authors = getAuthors();
+        Optional<Integer> integer = authors.stream()
+                .map(author -> author.getAge())
+                .reduce(new BinaryOperator<Integer>() {
+                    @Override
+                    public Integer apply(Integer result, Integer element) {
+                        return result > element ? element : result;
+                    }
+                });
+        integer.ifPresent(integer1 -> System.out.println(integer1));
+    }
+
+    private static void test20() {
+        List<Author> authors = getAuthors();
+        Integer sum = authors.stream()
+                .map(author -> author.getAge())
+                .reduce(Integer.MAX_VALUE, (result, element) -> result > element ? element : result);
+        System.out.println(sum);
+    }
+
+    private static void test19() {
+        //    使用reduce求作者中年龄最大值
+        List<Author> authors = getAuthors();
+        Integer sum = authors.stream()
+                .map(author -> author.getAge())
+                .reduce(Integer.MIN_VALUE, (result, element) -> result < element ? element : result);
+        System.out.println(sum);
+    }
+
+    private static void test18() {
+        //     ■ 使用reduce求所有作者年龄的和
+        List<Author> authors = getAuthors();
+        Integer sum = authors.stream()
+                .distinct()
+                .map(author -> author.getAge())
+                .reduce(0, (integer, integer2) -> integer + integer2);
+        System.out.println(sum);
+
+    }
+
+    private static void test17() {
+        List<Author> authors = getAuthors();
+        Optional<Author> optionalAuthor = authors.stream()
+                .sorted((o1, o2) -> o1.getAge() - o2.getAge())
+                .distinct()
+                .findFirst();
+        optionalAuthor.ifPresent(author -> System.out.println(author.getName()));
+    }
+
+    private static void test16() {
+        List<Author> authors = getAuthors();
+        Optional<Author> optionalAuthor = authors.stream()
+                .filter(author -> author.getAge() > 18)
+                .findAny();
+        optionalAuthor.ifPresent(author -> System.out.println(author.getName()));
+    }
+
+    private static void test15() {
+        List<Author> authors = getAuthors();
+        boolean b = authors.stream()
+                .noneMatch(author -> author.getAge() >= 100);
+        System.out.println(b);
+    }
+
+    private static void test14() {
+        List<Author> authors = getAuthors();
+        boolean b = authors.stream()
+                .anyMatch(author -> author.getAge() > 29);
+        System.out.println(b);
+
+        boolean b1 = authors.stream()
+                .allMatch(author -> author.getAge() > 30);
+        System.out.println(b1);
     }
 
     private static void test13() {
