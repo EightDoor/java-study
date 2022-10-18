@@ -67,7 +67,7 @@ public class StudyStreamApplication {
     private static void test19() {
         //    使用reduce求作者中年龄最大值
         List<Author> authors = getAuthors();
-        Integer sum = authors.stream()
+        Integer sum = authors.parallelStream()
                 .map(author -> author.getAge())
                 .reduce(Integer.MIN_VALUE, (result, element) -> result < element ? element : result);
         System.out.println(sum);

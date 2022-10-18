@@ -3,7 +3,9 @@ package com.start6.studystream;
 import com.start6.studystream.entity.Author;
 
 import java.util.Optional;
+import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 /**
  * @author zhoukai
@@ -16,7 +18,16 @@ public class OptionalDemo {
 //        Optional<Author> optional = getAuthorOptional();
 //        optional.ifPresent((author -> System.out.println(author.getName())));
 //        test01();
-        test02();
+//        test02();
+        test03();
+    }
+
+    private static void test03() {
+        Stream<Integer> stream = Stream.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        Integer integer = stream.parallel().filter(num -> num > 5)
+                .peek(integer1 -> System.out.println(integer1 + Thread.currentThread().getName()))
+                .reduce((result, ele) -> result + ele).get();
+        System.out.println(integer);
     }
 
     private static void test02() {
